@@ -1,0 +1,15 @@
+<table style="">
+<?php if (!empty($result)) :?>
+    <?php foreach($result as $key => $val) : ?>
+        <tr>
+        <td>
+        <?php
+        if (!empty($val)) {
+            print_r($val);
+        }
+        ?>
+        </td>
+        </tr>
+    <?php endforeach;?>
+<?php endif;?>
+</table>
