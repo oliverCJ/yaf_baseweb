@@ -107,6 +107,12 @@ class Validate
                 Tools::globalSaveErrorMessage("param is not in " . implode(',', $scope['enum']));
                 return false;
             }
+            if (!empty($scope['preg'])) {
+                if (!preg_match($scope['preg'], $data)) {
+                    Tools::globalSaveErrorMessage("param is not mat " . $scope['preg']);
+                    return false;
+                }
+            }
             if (isset($scope['max']) && (!is_int($scope['max']) || strlen($data) > $scope['max'])) {
                 Tools::globalSaveErrorMessage("The length of the param is greater than {$scope['max']}");
                 return false;
@@ -227,38 +233,41 @@ class Validate
         if (isset($validate['enum'])) {
             $scope['enum'] = $validate['enum'];
         }
+        if (isset($validate['preg'])) {
+            $scope['preg'] = $validate['preg'];
+        }
         switch ($validate['type']) {
             case 'integer':
                 if (!self::checkIntScope($data, $scope)) {
-                    $msg = \Yaf_Registry::get('errorInfo')['msg'];
+                    $msg = \Yaf\Registry::get('errorInfo');
                     Tools::globalSaveErrorMessage($msg .  ", check param：{$field}");
                     return false;
                 }
                 break;
             case 'float':
                 if (!self::checkFloatScope($data, $scope)) {
-                    $msg = \Yaf_Registry::get('errorInfo')['msg'];
+                    $msg = \Yaf\Registry::get('errorInfo');
                     Tools::globalSaveErrorMessage($msg .  ", check param：{$field}");
                     return false;
                 }
                 break;
             case 'boolean':
                 if (!self::checkBool($data)) {
-                    $msg = \Yaf_Registry::get('errorInfo')['msg'];
+                    $msg = \Yaf\Registry::get('errorInfo');
                     Tools::globalSaveErrorMessage($msg .  ", check param：{$field}");
                     return false;
                 }
                 break;
             case 'string':
                 if (!self::checkStringScope($data, $scope)) {
-                    $msg = \Yaf_Registry::get('errorInfo')['msg'];
+                    $msg = \Yaf\Registry::get('errorInfo');
                     Tools::globalSaveErrorMessage($msg .  ", check param：{$field}");
                     return false;
                 }
                 break;
             case 'json':
                 if (!self::checkJson($data)) {
-                    $msg = \Yaf_Registry::get('errorInfo')['msg'];
+                    $msg = \Yaf\Registry::get('errorInfo');
                     Tools::globalSaveErrorMessage($msg .  ", check param：{$field}");
                     return false;
                 }
@@ -268,14 +277,14 @@ class Validate
              * 应当尽量避免把数组或对象当做请求参数,如果必须传入复杂类型，建议使用json类型代替
             case 'array':
                 if (!self::checkArrayScope($data, $scope)) {
-                    $msg = \Yaf_Registry::get('errorInfo')['msg'];
+                    $msg = \Yaf\Registry::get('errorInfo');
                     Tools::globalSaveErrorMessage($msg .  ", check param：{$field}");
                     return false;
                 }
                 break;
             case 'object':
                 if (!self::checkObjectScope($data, $scope)) {
-                    $msg = \Yaf_Registry::get('errorInfo')['msg'];
+                    $msg = \Yaf\Registry::get('errorInfo');
                     Tools::globalSaveErrorMessage($msg .  ", check param：{$field}");
                     return false;
                 }
@@ -331,39 +340,42 @@ class Validate
                     if (isset($set['enum'])) {
                         $scope['enum'] = $set['enum'];
                     }
+                    if (isset($set['preg'])) {
+                        $scope['preg'] = $set['preg'];
+                    }
                     // 检查类型
                     switch ($set['type']) {
                         case 'integer':
                             if (!self::checkIntScope($data[$field], $scope)) {
-                                $msg = \Yaf_Registry::get('errorInfo')['msg'];
+                                $msg = \Yaf\Registry::get('errorInfo');
                                 Tools::globalSaveErrorMessage($msg .  ", check param：{$field}");
                                 return false;
                             }
                             break;
                         case 'float':
                             if (!self::checkFloatScope($data[$field], $scope)) {
-                                $msg = \Yaf_Registry::get('errorInfo')['msg'];
+                                $msg = \Yaf\Registry::get('errorInfo');
                                 Tools::globalSaveErrorMessage($msg .  ", check param：{$field}");
                                 return false;
                             }
                             break;
                         case 'boolean':
                             if (!self::checkBool($data[$field])) {
-                                $msg = \Yaf_Registry::get('errorInfo')['msg'];
+                                $msg = \Yaf\Registry::get('errorInfo');
                                 Tools::globalSaveErrorMessage($msg .  ", check param：{$field}");
                                 return false;
                             }
                             break;
                         case 'string':
                             if (!self::checkStringScope($data[$field], $scope)) {
-                                $msg = \Yaf_Registry::get('errorInfo')['msg'];
+                                $msg = \Yaf\Registry::get('errorInfo');
                                 Tools::globalSaveErrorMessage($msg .  ", check param：{$field}");
                                 return false;
                             }
                             break;
                         case 'json':
                             if (!self::checkJson($data)) {
-                                $msg = \Yaf_Registry::get('errorInfo')['msg'];
+                                $msg = \Yaf\Registry::get('errorInfo');
                                 Tools::globalSaveErrorMessage($msg .  ", check param：{$field}");
                                 return false;
                             }
@@ -373,14 +385,14 @@ class Validate
                          * 应当尽量避免把数组或对象当做请求参数,如果必须传入复杂类型，建议使用json类型代替
                         case 'array':
                             if (!self::checkArrayScope($data[$field], $scope)) {
-                                $msg = \Yaf_Registry::get('errorInfo')['msg'];
+                                $msg = \Yaf\Registry::get('errorInfo');
                                 Tools::globalSaveErrorMessage($msg .  ", check param：{$field}");
                                 return false;
                             }
                             break;
                         case 'object':
                             if (!self::checkObjectScope($data[$field], $scope)) {
-                                $msg = \Yaf_Registry::get('errorInfo')['msg'];
+                                $msg = \Yaf\Registry::get('errorInfo') ;
                                 Tools::globalSaveErrorMessage($msg .  ", check param：{$field}");
                                 return false;
                             }
